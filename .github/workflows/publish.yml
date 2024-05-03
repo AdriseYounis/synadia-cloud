@@ -16,6 +16,6 @@ jobs:
                 password: ${{ secrets.GITHUB_TOKEN }}
             - name: Build & Push
               run: |
-                     docker build . --file ./deployment/Dockerfile --tag ghcr.io/adriseyounis/gcr_demo:latest
-                     docker run ghcr.io/adriseyounis/gcr_demo:latest
-                     docker push ghcr.io/adriseyounis/gcr_demo:latest
+                     docker build . --file ./deployment/Dockerfile --tag ghcr.io/adriseyounis/gcr_demo:${{ github.sha }}
+                     docker run ghcr.io/adriseyounis/gcr_demo:${{ github.sha }}
+                     docker push ghcr.io/adriseyounis/gcr_demo:${{ github.sha }}
