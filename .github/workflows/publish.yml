@@ -13,8 +13,8 @@ jobs:
                 registry: ghcr.io
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHUB_TOKEN }}
-            - name: Build synadia-cloud Docker image
+            - name: Build & Push
               run: |
-                     docker build . --file ./deployment/Dockerfile --tag ghcr.io/synadia-cloud/gcr-demo:latest
-                     docker run ghcr.io/synadia-cloud/gcr-demo:latest
-                     docker push ghcr.io/synadia-cloud/gcr-demo:latest
+                     docker build . --file ./deployment/Dockerfile --tag ghcr.io/${{ github.repository_owner }}/gcr-demo:latest
+                     docker run ghcr.io/${{ github.repository_owner }}/gcr-demo:latest
+                     docker push ghcr.io/${{ github.repository_owner }}/gcr-demo:latest
