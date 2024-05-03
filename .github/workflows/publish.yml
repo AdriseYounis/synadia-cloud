@@ -1,0 +1,20 @@
+
+name: Publish Docker image
+on: [push]
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Login to GitHub Container Registry
+              uses: docker/login-action@v1
+              with:
+                registry: ghcr.io
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}
+            - name: Build synadia-cloud Docker image
+              run: |
+                     docker build . --file ./deployment/Dockerfile --tag ghcr.io/synadia-cloud/gcr-demo:latest
+                     docker run ghcr.io/synadia-cloud/gcr-demo:latest
+                     docker push ghcr.io/synadia-cloud/gcr-demo:latest
