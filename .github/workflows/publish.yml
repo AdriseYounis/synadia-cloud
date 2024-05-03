@@ -5,6 +5,7 @@ on: [push]
 jobs:
     publish:
         runs-on: ubuntu-latest
+        permissions: write-all
         steps:
             - uses: actions/checkout@v2
             - name: Login to GitHub Container Registry
