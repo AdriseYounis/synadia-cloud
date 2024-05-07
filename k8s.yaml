@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-world-demo
+  template:
+    metadata:
+      labels:
+        app: hello-world-demo
+    spec:
+      containers:
+        - image: ghcr.io/adriseyounis/hello-world-demo:latest
+          name: hello-world-demo
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-login-secret
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world-demo
+  labels:
+    app: hello-world-demo
+spec:
+  ports:
+    - name: "hello-world-demo"
+      port: 80
+  selector:
+    app: hello-world-demo
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: hello-world-demo-ingress
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+  labels:
+    app: hello-world-demo
+spec:
+  rules:
+    - host: CLUSTER_ID.k8s.civo.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: hello-world-demo
+              servicePort: 80

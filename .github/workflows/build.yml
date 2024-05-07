@@ -1,6 +1,5 @@
 name : build workflow
-
-on: push
+on: [push]
 
 jobs:
     build:
