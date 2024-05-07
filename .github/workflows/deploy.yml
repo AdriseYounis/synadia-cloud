@@ -8,7 +8,7 @@ jobs:
         steps:
         - uses: actions/checkout@v2
         - name: Install civo
-          uses: civo/action-civo
+          uses: civo/action-civo@v1.0.1
           with:
             token: ${{ secrets.CIVO_TOKEN }}
           env:
