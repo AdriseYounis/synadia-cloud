@@ -7,8 +7,9 @@ jobs:
 
         steps:
         - uses: actions/checkout@v2
+
         - name: Install civo
-          uses: civo/action-civo@v1.0.1
+          uses: civo/action-civo@v1.0.0
           with:
             token: ${{ secrets.CIVO_TOKEN }}
           env:
@@ -16,11 +17,8 @@ jobs:
 
         - name: Create a k3s cluster
           run: >
-            if [[ $(civo k3s show hello-world-demo -o custom -f ID) == "" ]]; then
-                echo "adrise test"
-                civo k3s create hello-world-demo -n 2 --wait
-            fi           
-    
+            echo "adrise test"
+            civo k3s create hello-world-demo -n 2 --wait    
         - name: Make config folder
           run: mkdir ~/.kube
 
