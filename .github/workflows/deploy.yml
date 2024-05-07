@@ -17,6 +17,7 @@ jobs:
         - name: Create a k3s cluster
           run: >
             if [[ $(civo k3s show hello-world-demo -o custom -f ID) == "" ]]; then
+                echo "adrise test"
                 civo k3s create hello-world-demo -n 2 --wait
             fi           
     
