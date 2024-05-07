@@ -17,17 +17,15 @@ jobs:
 
         - name: Create a k3s cluster
           run: >
-            echo "adrise test"
             civo k3s create hello-world-demo -n 2 --wait    
+
         - name: Make config folder
           run: mkdir ~/.kube
 
         - name: Save our cluster's authentication details
           run: >
-            civo k3s config hello-world-demo --save
-            --local-path ~/.kube/config -y
+            civo k3s config hello-world-demo --save --local-path ~/.kube/config -y
     
-
         - name: Ensure we can connect to the API
           run: >
             i=0;
@@ -37,7 +35,6 @@ jobs:
                 sleep 1;
             done
 
-        
         - name: Authenticate Kubernetes Cluster to Github Container Registry 
           run: >
              kubectl create secret docker-registry ghcr-login-secret
