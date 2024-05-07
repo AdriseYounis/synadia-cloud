@@ -18,8 +18,6 @@ spec:
           imagePullPolicy: Always
       imagePullSecrets:
         - name: ghcr-login-secret
-
-
 ---
 apiVersion: v1
 kind: Service
@@ -39,18 +37,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: hello-world-demo-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  ingressClassName: hello-world-demo-nginx-example
   rules:
     - host: CLUSTER_ID.k8s.civo.com
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: hello-world-demo
-            port:
-              number: 80
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-world-demo
+                port:
+                  number: 80
