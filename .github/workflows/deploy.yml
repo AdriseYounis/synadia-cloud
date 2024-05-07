@@ -46,8 +46,7 @@ jobs:
         
         - name: Replace our cluster ID
           run: >
-            sed -i'' -e "s/CLUSTER_ID/`civo k3s show hello-world-demo -o custom -f ID`/" k8s.yaml &&
-            sed -i'' -e "s/CLUSTER_ID/`civo k3s show hello-world-demo -o custom -f ID`/" config.toml
+            sed -i'' -e "s/CLUSTER_ID/`civo k3s show hello-world-demo -o custom -f ID`/" k8s.yaml
 
         - name: Checkout Code
           uses: actions/checkout@v3

@@ -35,20 +35,22 @@ spec:
     app: hello-world-demo
 ---
 
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: hello-world-demo-ingress
   annotations:
-    kubernetes.io/ingress.class: "traefik"
-  labels:
-    app: hello-world-demo
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: hello-world-demo-nginx-example
   rules:
-    - host: hello-world-demo.CLUSTER_ID.k8s.civo.com
-      http:
-        paths:
-          - path: /
-            backend:
-              serviceName: hello-world-demo
-              servicePort: 80
+    - host: CLUSTER_ID.k8s.civo.com
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hello-world-demo
+            port:
+              number: 80
