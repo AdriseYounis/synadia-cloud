@@ -39,7 +39,7 @@ metadata:
   name: hello-world-demo-ingress
 spec:
   rules:
-    - host: CLUSTER_ID.k8s.civo.com
+    - host: hello-world-demo.CLUSTER_ID.k8s.civo.com
       http:
         paths:
           - path: /
