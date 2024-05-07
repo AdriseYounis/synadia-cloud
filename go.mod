@@ -6,6 +6,7 @@ require github.com/synadia-io/control-plane-sdk-go v0.5.0
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/gorilla/mux v1.8.1
 	github.com/klauspost/compress v1.17.7 // indirect
 	github.com/minio/highwayhash v1.0.2 // indirect
 	github.com/nats-io/gnatsd v1.4.1 // indirect
