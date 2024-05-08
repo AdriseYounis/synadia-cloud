@@ -42,7 +42,7 @@ jobs:
         - name: Authenticate Kubernetes Cluster to Github Container Registry 
           run: >
             if ! kubectl get secret ghcr-login-secret | grep "ghcr-login-secret"; then
-              kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username=adriseyounis --docker-password=${{ secrets.GITHUB_TOKEN }} --docker-email=adriesyounis@gmail.com
+              kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username=adriesyounis@gmail.com --docker-password=${{ secrets.GITHUB_TOKEN }} --docker-email=adriesyounis@gmail.com
             fi
         
         - name: Replace our cluster ID
