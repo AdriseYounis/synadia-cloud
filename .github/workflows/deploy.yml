@@ -16,18 +16,18 @@ jobs:
           env:
             ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
-        - name: Create a k3s cluster
-          run: >
-            if [[ $(civo k3s show hello-world-demo -o custom -f ID) == "" ]]; then
-                civo k3s create hello-world-demo -n 2 --wait
-            fi    
+        # - name: Create a k3s cluster
+        #   run: >
+        #     if [[ $(civo k3s show hello-world-demo -o custom -f ID) == "" ]]; then
+        #         civo k3s create hello-world-demo -n 2 --wait
+        #     fi    
 
-        - name: Make config folder
-          run: mkdir ~/.kube
+        # - name: Make config folder
+        #   run: mkdir ~/.kube
 
         - name: Save our cluster's authentication details
           run: >
-            civo k3s config hello-world-demo --save --local-path ~/.kube/config -y
+            civo k3s config payserveglobal-dev-civo --save --local-path ~/.kube/config -y
     
         - name: Ensure we can connect to the API
           run: >
@@ -46,7 +46,7 @@ jobs:
         
         - name: Replace our cluster ID
           run: >
-            sed -i'' -e "s/CLUSTER_ID/`civo k3s show hello-world-demo -o custom -f ID`/" k8s.yaml
+            sed -i'' -e "s/CLUSTER_ID/`civo k3s show payserveglobal-dev-civo -o custom -f ID`/" k8s.yaml
 
         - name: Checkout Code
           uses: actions/checkout@v3

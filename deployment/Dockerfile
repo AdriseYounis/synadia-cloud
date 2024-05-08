@@ -11,4 +11,4 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /synadia-cloud
 
 EXPOSE 8080
 
-CMD ["/synadia-cloud"]
+ENTRYPOINT ["go", "run", "main.go"]
