@@ -22,8 +22,8 @@ jobs:
         #         civo k3s create hello-world-demo -n 2 --wait
         #     fi    
 
-        # - name: Make config folder
-        #   run: mkdir ~/.kube
+        - name: Make config folder
+          run: mkdir ~/.kube
 
         - name: Save our cluster's authentication details
           run: >
