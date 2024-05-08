@@ -13,7 +13,7 @@ spec:
         app: hello-world-demo
     spec:
       containers:
-        - image: ghcr.io/adriseyounis/hello-world-demo:latest
+        - image: ghcr.io/adriseyounis/hello-world-demo:0.0.1-main.45.2e67a74
           name: hello-world-demo
           imagePullPolicy: Always
       imagePullSecrets:
