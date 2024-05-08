@@ -26,7 +26,8 @@ jobs:
           run: mkdir ~/.kube
 
         - name: Save our cluster's authentication details
-          run: >
+          run: |
+            civo k3s config --switch payserveglobal-dev-civo
             civo k3s config payserveglobal-dev-civo --save --local-path ~/.kube/config -y
     
         - name: Ensure we can connect to the API
