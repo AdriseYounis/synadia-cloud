@@ -22,11 +22,12 @@ jobs:
         #         civo k3s create hello-world-demo -n 2 --wait
         #     fi    
 
-        - name: Make config folder
-          run: mkdir ~/.kube
+        # - name: Make config folder
+        #   run: mkdir ~/.kube
 
         - name: Save our cluster's authentication details
           run: |
+            civo region use LON1
             civo k3s ls
           # civo k3s show payserveglobal-dev-civo
            # civo k3s config --switch payserveglobal-dev-civo
