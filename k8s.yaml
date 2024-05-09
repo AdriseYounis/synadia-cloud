@@ -18,13 +18,12 @@ spec:
           imagePullPolicy: Always
       imagePullSecrets:
         - name: ghcr-login-secret
-        
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: hello-world-demo
-    labels:
+  labels:
     app: hello-world-demo
 spec:
   ports:
@@ -32,9 +31,7 @@ spec:
       port: 80
   selector:
     app: hello-world-demo
-
 ---
-
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
@@ -45,7 +42,7 @@ metadata:
     app: hello-world-demo
 spec:
   rules:
-    - host: dc34b662-8816-4de0-b6f2-b421c8f82d91.k8s.civo.com
+    - host: 6cc5efb8-519f-4f3f-a628-9eed20c3b8e6.k8s.civo.com
       http:
         paths:
           - path: /
