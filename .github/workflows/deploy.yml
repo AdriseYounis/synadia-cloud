@@ -69,8 +69,8 @@ jobs:
             
         - name: Build & Push
           run: |
-            docker build . --file ./deployment/Dockerfile --tag ghcr.io/${{ github.actor }}/hello-world-demo:${{ steps.version.outputs.version }}
-            docker push ghcr.io/${{ github.actor }}/hello-world-demo:${{ steps.version.outputs.version }}
+            docker build . --file ./deployment/Dockerfile --tag ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
+            docker push ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
 
         - name: Deploy our app to the cluster
           run: kubectl apply -f k8s.yaml
