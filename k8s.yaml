@@ -48,7 +48,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: 97c392ed-f375-4b6a-bc4a-e4e3b879c5e6.k8s.civo.com
+    - host: dc34b662-8816-4de0-b6f2-b421c8f82d91.k8s.civo.com
       http:
         paths:
           - path: /
