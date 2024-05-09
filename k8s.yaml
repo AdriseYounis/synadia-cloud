@@ -43,15 +43,16 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: hello-world-demo-ingress
+  namespace: default
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   ingressClassName: nginx
   rules:
     - host: dc34b662-8816-4de0-b6f2-b421c8f82d91.k8s.civo.com
       http:
         paths:
-          - path: /nginx
+          - path: /something(/|$)(.*)
             pathType: Prefix
             backend:
               service:
