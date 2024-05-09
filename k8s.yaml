@@ -47,5 +47,7 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: hello-world-demo
-              servicePort: 80
+              service:
+                name: hello-world-demo
+                port:
+                  number: 80
