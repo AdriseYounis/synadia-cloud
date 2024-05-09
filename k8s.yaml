@@ -7,15 +7,20 @@ spec:
   selector:
     matchLabels:
       app: hello-world-demo
+      version: v1
   template:
     metadata:
       labels:
         app: hello-world-demo
+        version: v1
     spec:
       containers:
         - image: ghcr.io/adriseyounis/hello-world-demo:0.0.1-main.45.2e67a74
           name: hello-world-demo
           imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              protocol: TCP
       imagePullSecrets:
         - name: ghcr-login-secret
 ---
@@ -27,10 +32,13 @@ metadata:
     app: hello-world-demo
 spec:
   ports:
-    - name: "hello-world-demo"
+    - protocol: TCP
+      name: "hello-world-demo"
       port: 80
+      targetPort: 8080
   selector:
     app: hello-world-demo
+    version: v1
 ---
 
 apiVersion: networking.k8s.io/v1
@@ -38,12 +46,13 @@ kind: Ingress
 metadata:
   name: hello-world-demo-ingress
 spec:
+  ingressClassName: nginx
   rules:
-    - host: fdff27b1-a846-41ac-a155-aee5a699fd48.k8s.civo.com
+    - host: 97c392ed-f375-4b6a-bc4a-e4e3b879c5e6.k8s.civo.com
       http:
         paths:
           - path: /
-            pathType: Prefix
+            pathType: Exact
             backend:
               service:
                 name: hello-world-demo
