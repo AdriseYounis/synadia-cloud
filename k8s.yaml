@@ -16,6 +16,8 @@ spec:
         - image: ghcr.io/adriseyounis/hello-world-demo:0.0.1-main.45.2e67a74
           name: hello-world-demo
           imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
       imagePullSecrets:
         - name: ghcr-login-secret
 ---
@@ -28,7 +30,8 @@ metadata:
 spec:
   ports:
     - name: "hello-world-demo"
-      port: 80
+      port: 8080
+      targetPort: 8080
   selector:
     app: hello-world-demo
 ---
@@ -51,4 +54,4 @@ spec:
               service:
                 name: hello-world-demo
                 port:
-                  number: 80
+                  number: 8080
