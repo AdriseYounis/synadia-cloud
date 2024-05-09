@@ -29,29 +29,25 @@ kind: Service
 metadata:
   name: hello-world-demo
 spec:
+  selector:
+    app: hello-world-demo
+    version: v1
   ports:
     - protocol: TCP
       port: 80
       targetPort: 8080
-  selector:
-    app: hello-world-demo
-    version: v1
 ---
 
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: hello-world-demo-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/app-root: /home
 spec:
   ingressClassName: nginx
   rules:
-    - host: dc34b662-8816-4de0-b6f2-b421c8f82d91.k8s.civo.com
       http:
         paths:
-          - path: /home
-            pathType: Exact
+          - path: /
             backend:
               service:
                 name: hello-world-demo
