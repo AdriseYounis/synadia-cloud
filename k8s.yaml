@@ -7,119 +7,48 @@ spec:
   selector:
     matchLabels:
       app: hello-world-demo
-      version: v1
   template:
     metadata:
       labels:
         app: hello-world-demo
-        version: v1
     spec:
       containers:
-      - name: hello-world-demo
-        image: ghcr.io/s1ntaxe770r/webapp-v1
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        ports:
-          - containerPort: 8080
-            protocol: TCP
+        - image: ghcr.io/adriseyounis/hello-world-demo:0.0.1-main.45.2e67a74
+          name: hello-world-demo
+          imagePullPolicy: Always
+      imagePullSecrets:
+        - name: ghcr-login-secret
+        
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
   name: hello-world-demo
+    labels:
+    app: hello-world-demo
 spec:
+  ports:
+    - name: "hello-world-demo"
+      port: 80
   selector:
     app: hello-world-demo
-    version: v1
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
 
 ---
 
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: hello-world-demo-ingress
   annotations:
-    nginx.ingress.kubernetes.io/app-root: /home
+    kubernetes.io/ingress.class: "traefik"
+  labels:
+    app: hello-world-demo
 spec:
-  ingressClassName: nginx
   rules:
-  - host: dc34b662-8816-4de0-b6f2-b421c8f82d91.k8s.civo.com
-    http:
-      paths:
-      - path: /home
-        pathType: Exact
-        backend:
-          service:
-            name: hello-world-demo
-            port:
-              number: 80
-
-
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: hello-world-demo
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: hello-world-demo
-#       version: v1
-#   template:
-#     metadata:
-#       labels:
-#         app: hello-world-demo
-#         version: v1
-#     spec:
-#       containers:
-#         - image: ghcr.io/adriseyounis/hello-world-demo:0.0.1-main.45.2e67a74
-#           name: hello-world-demo
-#           imagePullPolicy: Always
-#           ports:
-#             - containerPort: 8080
-#               protocol: TCP
-#       imagePullSecrets:
-#         - name: ghcr-login-secret
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: hello-world-demo
-# spec:
-#   selector:
-#     app: hello-world-demo
-#     version: v1
-#   type: NodePort  
-#   ports:
-#     - protocol: TCP
-#       port: 80
-#       targetPort: 8080
-# ---
-
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: hello-world-demo-ingress
-#   namespace: default
-#   annotations:
-#     nginx.ingress.kubernetes.io/rewrite-target: /$1
-# spec:
-#   ingressClassName: nginx
-#   rules:
-#     - host: dc34b662-8816-4de0-b6f2-b421c8f82d91.k8s.civo.com
-#       http:
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: hello-world-demo
-#                 port:
-#                   number: 80
+    - host: dc34b662-8816-4de0-b6f2-b421c8f82d91.k8s.civo.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: hello-world-demo
+              servicePort: 80
