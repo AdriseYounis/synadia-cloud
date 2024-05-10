@@ -46,8 +46,16 @@ jobs:
               kubectl get secret ghcr-login-secret --output="jsonpath={.data.\.dockerconfigjson}" | base64 --decode
             fi
         
+        # - name: Replace Cluster ID
+        #   run: sed -i'' -e "s/CLUSTER_ID/`civo k3s show payserveglobal-dev-civo -o custom -f ID`/" k8s.yaml
+
         - name: Replace Cluster ID
-          run: sed -i'' -e "s/CLUSTER_ID/`civo k3s show payserveglobal-dev-civo -o custom -f ID`/" k8s.yaml
+          uses: fjogeleit/yaml-update-action@main
+          with:
+            valueFile: 'k8s.yaml'
+            propertyPath: 'spec.rules.host'
+            value: 6cc5efb8-519f-4f3f-a628-9eed20c3b8e6.k8s.civo.com
+            commitChange: false
 
         - name: Checkout Code
           uses: actions/checkout@v3
