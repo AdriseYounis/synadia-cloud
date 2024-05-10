@@ -45,7 +45,7 @@ metadata:
     app: hello-world-demo
 spec:
   rules:
-    - host: 6cc5efb8-519f-4f3f-a628-9eed20c3b8e6.k8s.civo.com
+    - host: CLUSTER_ID.k8s.civo.com
       http:
         paths:
           - path: /
