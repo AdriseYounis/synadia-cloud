@@ -46,33 +46,34 @@ jobs:
               kubectl get secret ghcr-login-secret --output="jsonpath={.data.\.dockerconfigjson}" | base64 --decode
             fi
         
-        - name: Replace our cluster ID
+        - name: Replace Cluster ID
           run: sed -i'' -e "s/CLUSTER_ID/`civo k3s show payserveglobal-dev-civo -o custom -f ID`/" k8s.yaml
 
-        - name: Deploy our app to the cluster
-          run: kubectl apply -f k8s.yaml
+        - name: Checkout Code
+          uses: actions/checkout@v3
+          with:
+            ref: ${{ github.head_ref }}
+            fetch-depth: 0   
 
-        # - name: Checkout Code
-        #   uses: actions/checkout@v3
-        #   with:
-        #     ref: ${{ github.head_ref }}
-        #     fetch-depth: 0   
+        - name: Git Version
+          id: version
+          uses: codacy/git-version@2.7.1
 
-        # - name: Git Version
-        #   id: version
-        #   uses: codacy/git-version@2.7.1
-
-        # - name: Login to GitHub Container Registry
-        #   uses: docker/login-action@v1
-        #   with:
-        #     registry: ghcr.io
-        #     username: ${{ github.actor }}
-        #     password: ${{ secrets.GITHUB_TOKEN }}
+        - name: Login to GitHub Container Registry
+          uses: docker/login-action@v1
+          with:
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
             
-        # - name: Build & Push
-        #   run: |
-        #     docker build . --file ./deployment/Dockerfile --tag ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
-        #     docker push ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
+        - name: Build & Push
+          run: |
+            docker build . --file ./deployment/Dockerfile --tag ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
+            docker push ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
+
+        - name: Replace Image ID
+          run: |
+            echo "ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}"
 
         # - name: Deploy our app to the cluster
         #   run: kubectl apply -f k8s.yaml
