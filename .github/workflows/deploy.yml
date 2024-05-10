@@ -71,22 +71,26 @@ jobs:
             docker build . --file ./deployment/Dockerfile --tag ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
             docker push ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
 
-        - name: Replace Image ID
-          run: |
-            echo "ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}"
+        - name: Update values.yaml
+          uses: fjogeleit/yaml-update-action@main
+          with:
+            valueFile: 'k8s.yaml'
+            propertyPath: 'spec.template.spec.containers.image'
+            value: ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
+            commitChange: false
 
-        # - name: Deploy our app to the cluster
-        #   run: kubectl apply -f k8s.yaml
+        - name: Deploy our app to the cluster
+          run: kubectl apply -f k8s.yaml
 
-        # - name: Wait for the deployment to be ready
-        #   run: >
-        #     i=0;
-        #     while [ $i -le 120 ]; do
-        #       kubectl rollout status deployment/hello-world-demo | grep "successfully rolled out" && break;
-        #       ((i++));
-        #       sleep 1;
-        #     done
+        - name: Wait for the deployment to be ready
+          run: >
+            i=0;
+            while [ $i -le 120 ]; do
+              kubectl rollout status deployment/hello-world-demo | grep "successfully rolled out" && break;
+              ((i++));
+              sleep 1;
+            done
 
-        # - name: Update application
-        #   run: kubectl patch deployment hello-world-demo -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
+        - name: Update application
+          run: kubectl patch deployment hello-world-demo -p "{\"spec\":{\"template\":{\"metadata\":{\"labels\":{\"date\":\"`date +'%s'`\"}}}}}"
       
