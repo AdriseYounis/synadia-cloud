@@ -48,7 +48,7 @@ jobs:
         
         - name: Replace our cluster ID
           run: >
-            ls
+            ls ${{ github.workspace }}
             echo "now going to replace id"
             sed -i'' -e "s/CLUSTER_ID/`civo k3s show payserveglobal-dev-civo -o custom -f ID`/" k8s.yaml
 
