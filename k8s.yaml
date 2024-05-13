@@ -12,14 +12,14 @@ spec:
       labels:
         app: hello-world-demo
     spec:
+      imagePullSecrets:
+        - name: ghcr-login-secret
       containers:
-        - image: ghcr.io/adriseyounis/hello-world-demo:0.0.1-main.45.2e67a74
+        - image: ghcr.io/adriseyounis/hello-world-demo:latest
           name: hello-world-demo
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
-      imagePullSecrets:
-        - name: ghcr-login-secret
 ---
 apiVersion: v1
 kind: Service

@@ -46,14 +46,6 @@ jobs:
               kubectl get secret ghcr-login-secret --output="jsonpath={.data.\.dockerconfigjson}" | base64 --decode
             fi
         
-        # - name: Replace Cluster ID
-        #   uses: fjogeleit/yaml-update-action@main
-        #   with:
-        #     valueFile: 'k8s.yaml'
-        #     propertyPath: 'spec.rules.host'
-        #     value: 6cc5efb8-519f-4f3f-a628-9eed20c3b8e6.k8s.civo.com
-        #     commitChange: false
-
         - name: Checkout Code
           uses: actions/checkout@v3
           with:
@@ -73,16 +65,8 @@ jobs:
             
         - name: Build & Push
           run: |
-            docker build . --file ./deployment/Dockerfile --tag ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
-            docker push ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
-
-        - name: Update values.yaml
-          uses: fjogeleit/yaml-update-action@main
-          with:
-            valueFile: 'k8s.yaml'
-            propertyPath: 'spec.template.spec.containers.image'
-            value: ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }}
-            commitChange: false
+            docker build . --file ./deployment/Dockerfile -t ghcr.io/adriseyounis/hello-world-demo:${{ steps.version.outputs.version }} -t ghcr.io/adriseyounis/hello-world-demo:latest
+            docker push --all-tags ghcr.io/adriseyounis/hello-world-demo
 
         - name: Replace Cluster ID
           run: sed -i'' -e "s/CLUSTER_ID/`civo k3s show payserveglobal-dev-civo -o custom -f ID`/" k8s.yaml
